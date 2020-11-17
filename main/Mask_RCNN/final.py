@@ -31,6 +31,7 @@ import matplotlib.pyplot as plt
 
 # Root directory of the project
 ROOT_DIR = ""
+
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
 from mrcnn.config import Config
