@@ -30,8 +30,7 @@ from mrcnn.visualize import display_instances
 import matplotlib.pyplot as plt
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("")
-
+ROOT_DIR = ""
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
 from mrcnn.config import Config
@@ -61,7 +60,7 @@ class CustomConfig(Config):
     IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 4  # Background + toy
+    NUM_CLASSES = 1 + 2  # Background + toy
 
     # Number of training steps per epoch
     STEPS_PER_EPOCH = 100
@@ -82,10 +81,8 @@ class CustomDataset(utils.Dataset):
         subset: Subset to load: train or val
         """
         # Add classes. We have only one class to add.
-        self.add_class("object", 1, "bottle")
-        self.add_class("object", 2, "glass")
-        self.add_class("object", 3, "paper")
-        self.add_class("object", 4, "trash")
+        self.add_class("object", 1, "BLM_IC")
+        self.add_class("object", 2, "BLM_LIC")
 
         # Train or validation dataset?
         assert subset in ["train", "val"]
@@ -123,7 +120,7 @@ class CustomDataset(utils.Dataset):
             polygons = [r['shape_attributes'] for r in a['regions']] 
             objects = [s['region_attributes']['name'] for s in a['regions']]
             print("objects:",objects)
-            name_dict = {"bottle": 1,"glass": 2,"paper": 3,"trash": 4}
+            name_dict = {"BLM_IC": 1,"BLM_LIC": 2}
             # key = tuple(name_dict)
             num_ids = [name_dict[a] for a in objects]
      
