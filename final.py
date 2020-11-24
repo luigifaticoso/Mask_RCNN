@@ -203,6 +203,7 @@ def train(model):
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=300,
+                custom_callbacks = [tensorboard_callback],
                 layers='heads')
 
 
