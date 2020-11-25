@@ -194,7 +194,7 @@ def train(model):
     dataset_val = CustomDataset()
     dataset_val.load_custom(args.dataset, "val")
     dataset_val.prepare()
-
+    tensorboard_callback = keras.callbacks.TensorBoard(log_dir=args.logs)
     # *** This training schedule is an example. Update to your needs ***
     # Since we're using a very small dataset, and starting from
     # COCO trained weights, we don't need to train too long. Also,
