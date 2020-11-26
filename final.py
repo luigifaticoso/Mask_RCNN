@@ -221,7 +221,8 @@ def train(model):
     dataset_val.prepare()
 
     #inference model
-    model_inference = modellib.MaskRCNN(mode="inference",config=_InfConfig,model_dir=args.logs)
+    infConfig = _InfConfig()
+    model_inference = modellib.MaskRCNN(mode="inference",config=infConfig,model_dir=args.logs)
     tensorboard_callback = keras.callbacks.TensorBoard(log_dir=args.logs)
     mean_average_precision_callback = modellib.MeanAveragePrecisionCallback(model,model_inference, dataset_val, calculate_map_at_every_X_epoch=3, verbose=1)
     # *** This training schedule is an example. Update to your needs ***
