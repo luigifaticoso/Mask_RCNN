@@ -71,6 +71,30 @@ class CustomConfig(Config):
     DETECTION_MIN_CONFIDENCE = 0.9
 
 
+
+class _InfConfig(Config):
+    """Configuration for training on the toy  dataset.
+    Derives from the base Config class and overrides some values.
+    """
+    # Give the configuration a recognizable name
+    NAME = "object"
+
+    # We use a GPU with 12GB memory, which can fit two images.
+    # Adjust down if you use a smaller GPU.
+    IMAGES_PER_GPU = 1
+
+    # Number of classes (including background)
+    NUM_CLASSES = 1 + 2  # Background + toy
+
+    # Number of training steps per epoch
+    STEPS_PER_EPOCH = 100
+
+    # Skip detections with < 90% confidence
+    DETECTION_MIN_CONFIDENCE = 0.0
+
+    BATCH_SIZE = 1
+
+
 ############################################################
 #  Dataset
 ############################################################
@@ -197,7 +221,7 @@ def train(model):
     dataset_val.prepare()
 
     #inference model
-    model_inference = modellib.MaskRCNN(mode="inference",config=config,model_dir=args.logs)
+    model_inference = modellib.MaskRCNN(mode="inference",config=_InfConfig,model_dir=args.logs)
     tensorboard_callback = keras.callbacks.TensorBoard(log_dir=args.logs)
     mean_average_precision_callback = modellib.MeanAveragePrecisionCallback(model,model_inference, dataset_val, calculate_map_at_every_X_epoch=3, verbose=1)
     # *** This training schedule is an example. Update to your needs ***
