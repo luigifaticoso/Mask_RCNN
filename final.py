@@ -196,6 +196,8 @@ def train(model):
     dataset_val.load_custom(args.dataset, "val")
     dataset_val.prepare()
     tensorboard_callback = keras.callbacks.TensorBoard(log_dir=args.logs)
+    mean_average_precision_callback = modellib.MeanAveragePrecisionCallback(model,
+model_inference, dataset_val, calculate_map_at_every_X_epoch=3, verbose=1)
     # *** This training schedule is an example. Update to your needs ***
     # Since we're using a very small dataset, and starting from
     # COCO trained weights, we don't need to train too long. Also,
@@ -204,7 +206,7 @@ def train(model):
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=300,
-                custom_callbacks = [tensorboard_callback],
+                custom_callbacks = [tensorboard_callback,mean_average_precision_callback],
                 layers='heads')
 
 
