@@ -195,9 +195,11 @@ def train(model):
     dataset_val = CustomDataset()
     dataset_val.load_custom(args.dataset, "val")
     dataset_val.prepare()
+
+    #inference model
+    model_inferece = modellib.MaskRCNN(mode="inference",config=CustomConfig,model_dir=args.logs)
     tensorboard_callback = keras.callbacks.TensorBoard(log_dir=args.logs)
-    mean_average_precision_callback = modellib.MeanAveragePrecisionCallback(model,
-model_inference, dataset_val, calculate_map_at_every_X_epoch=3, verbose=1)
+    mean_average_precision_callback = modellib.MeanAveragePrecisionCallback(model,model_inference, dataset_val, calculate_map_at_every_X_epoch=3, verbose=1)
     # *** This training schedule is an example. Update to your needs ***
     # Since we're using a very small dataset, and starting from
     # COCO trained weights, we don't need to train too long. Also,
